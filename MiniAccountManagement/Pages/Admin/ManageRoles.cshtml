@@ -34,9 +34,14 @@
                                     <button class="btn btn-sm btn-outline-secondary me-1" title="Edit Role">
                                         <i class="fas fa-pen-to-square"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Delete Role" onclick="return confirm('Are you sure you want to delete this role?');">
+                                    <button class="btn btn-sm btn-outline-danger" title="Delete Role"
+                                            onclick="location.href='@Url.Page("/Admin/ManageRoles", new { RoleId = role.Id })'">
                                         <i class="fas fa-trash-can"></i>
                                     </button>
+                                    @* <button class="btn btn-sm btn-outline-danger" title="Delete Role"  *@
+                                    @*         onclick="return confirm('Are you sure you want to delete this role?');"> *@
+                                    @*     <i class="fas fa-trash-can"></i> *@
+                                    @* </button> *@
                                 </td>
                             </tr>
                         }
@@ -50,7 +55,7 @@
 <div class="modal fade" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" asp-page-handler="Create">
+            <form method="post" asp-page-handler="CreateRole">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createRoleModalLabel">Create a New Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
