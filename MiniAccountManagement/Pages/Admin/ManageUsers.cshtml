@@ -1,27 +1,110 @@
 ﻿@page
 @model MiniAccountManagement.Data.Admin.ManageUsersModel
 @{
+    ViewData["Title"] = "Manage Users";
 }
-<h2>Manage Users</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>UserName</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td>@user.Email</td>
-                <td>@user.UserName</td>
-                <td>
-                    <!-- Add links/buttons for editing roles, deleting,  -->
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+            <a asp-page="/Account/Register" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create New User
+            </a>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-muted">A list of all users in the system. Assign roles to control access to modules.</p>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Current Role</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td><span class="badge bg-secondary">....</span></td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-outline-primary me-1" title="Manage Roles"
+                                            data-bs-toggle="modal" data-bs-target="#manageUserRoleModal"
+                                            data-user-id="@user.Id"
+                                            data-user-name="@user.UserName"
+                                            data-current-role="---">
+                                        <i class="fas fa-user-shield"></i> Manage Roles
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Delete User" onclick="return confirm('Are you sure you want to delete this user?');">
+                                        <i class="fas fa-trash-can"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="manageUserRoleModal" tabindex="-1" aria-labelledby="manageUserRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="AssignRole">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manageUserRoleModalLabel">Manage User Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="UserId" id="modalUserId" />
+                    <p>User: <strong id="modalUserName"></strong></p>
+                    <div class="mb-3">
+                        <label for="roleSelect" class="form-label">Assign New Role:</label>
+                        <select name="NewRole" id="roleSelect" class="form-select">
+                            <option value="Admin">Admin</option>
+                            <option value="Accountant">Accountant</option>
+                            <option value="Viewer">Viewer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var manageUserRoleModal = document.getElementById('manageUserRoleModal');
+            if(manageUserRoleModal) {
+                manageUserRole_modal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+
+                    var userId = button.getAttribute('data-user-id');
+                    var userName = button.getAttribute('data-user-name');
+                    var currentRole = button.getAttribute('data-current-role');
+
+                    var modalUserName = manageUserRoleModal.querySelector('#modalUserName');
+                    var modalUserIdInput = manageUserRoleModal.querySelector('#modalUserId');
+                    var roleSelect = manageUserRoleModal.querySelector('#roleSelect');
+
+                    modalUserName.textContent = userName;
+                    modalUserIdInput.value = userId;
+                    roleSelect.value = currentRole;
+                });
+            }
+        });
+    </script>
+}
