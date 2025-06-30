@@ -34,14 +34,11 @@
                                     <button class="btn btn-sm btn-outline-secondary me-1" title="Edit Role">
                                         <i class="fas fa-pen-to-square"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Delete Role"
-                                            onclick="location.href='@Url.Page("/Admin/ManageRoles", new { RoleId = role.Id })'">
-                                        <i class="fas fa-trash-can"></i>
-                                    </button>
-                                    @* <button class="btn btn-sm btn-outline-danger" title="Delete Role"  *@
-                                    @*         onclick="return confirm('Are you sure you want to delete this role?');"> *@
-                                    @*     <i class="fas fa-trash-can"></i> *@
-                                    @* </button> *@
+                                    <form method="post" asp-page-handler="DeleteRole" asp-route-RoleId="@role.Id" onsubmit="return confirm('Are you sure you want to delete this role?');" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Role">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         }
