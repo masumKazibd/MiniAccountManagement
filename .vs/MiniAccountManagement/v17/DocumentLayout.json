@@ -1,0 +1,126 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Qtech\\MiniAccountManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|d:\\qtech\\miniaccountmanagement\\miniaccountmanagement\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C029843-6536-4658-A558-5CD7722921B1}|MiniAccountManagement\\MiniAccountManagement.csproj|solutionrelative:miniaccountmanagement\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\appsettings.json",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\appsettings.json",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\appsettings.json",
+              "RelativeToolTip": "MiniAccountManagement\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-30T10:02:24.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Program.cs",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\Program.cs",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Program.cs",
+              "RelativeToolTip": "MiniAccountManagement\\Program.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAIwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-30T10:02:22.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\Pages\\_ViewStart.cshtml",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\_ViewStart.cshtml",
+              "RelativeToolTip": "MiniAccountManagement\\Pages\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-30T09:57:58.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "MiniAccountManagement\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-30T09:57:50.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\Pages\\Index.cshtml.cs",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "MiniAccountManagement\\Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-30T09:57:33.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "MiniAccountManagement\\Pages\\Index.cshtml",
+              "ToolTip": "D:\\Qtech\\MiniAccountManagement\\MiniAccountManagement\\Pages\\Index.cshtml",
+              "RelativeToolTip": "MiniAccountManagement\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-30T09:57:27.586Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
