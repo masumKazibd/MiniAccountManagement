@@ -1,0 +1,29 @@
+﻿@page
+@model MiniAccountManagement.Data.Admin.ManageRolesModel
+@{
+}
+<h2>Manage Roles</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Role Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model.Roles)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <!-- Add delete/edit buttons -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form method="post" asp-page-handler="Create">
+    <input name="RoleName" placeholder="New Role Name" />
+    <button type="submit">Create Role</button>
+</form>

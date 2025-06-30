@@ -1,0 +1,27 @@
+﻿@page
+@model MiniAccountManagement.Data.Admin.ManageUsersModel
+@{
+}
+<h2>Manage Users</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>UserName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>
+                    <!-- Add links/buttons for editing roles, deleting,  -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
