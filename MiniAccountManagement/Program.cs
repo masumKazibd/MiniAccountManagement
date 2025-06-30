@@ -27,7 +27,6 @@ var scope = app.Services.CreateScope();
 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-// Seed roles
 string[] roleNames = { "Admin", "Accountant", "Viewer" };
 foreach (var roleName in roleNames)
 {
@@ -37,17 +36,32 @@ foreach (var roleName in roleNames)
     }
 }
 
-// Seed an admin user
 var adminUserEmail = "admin@example.com";
-if (await userManager.FindByEmailAsync(adminUserEmail) == null)
+var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+if (adminUser == null)
 {
-    var adminUser = new IdentityUser
+    adminUser = new IdentityUser
     {
         UserName = adminUserEmail,
         Email = adminUserEmail
     };
-    await userManager.CreateAsync(adminUser, "admin");
-    await userManager.AddToRoleAsync(adminUser, "Admin");
+
+    var createUserResult = await userManager.CreateAsync(adminUser, "admin123");
+    if (!createUserResult.Succeeded)
+    {
+        var errors = string.Join("; ", createUserResult.Errors.Select(e => e.Description));
+        throw new Exception($"Failed to create admin user: {errors}");
+    }
+}
+
+if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+{
+    var addToRoleResult = await userManager.AddToRoleAsync(adminUser, "Admin");
+    if (!addToRoleResult.Succeeded)
+    {
+        var errors = string.Join("; ", addToRoleResult.Errors.Select(e => e.Description));
+        throw new Exception($"Failed to assign role: {errors}");
+    }
 }
 
 // Configure the HTTP request pipeline.
