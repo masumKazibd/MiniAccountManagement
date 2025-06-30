@@ -40,5 +40,15 @@ namespace MiniAccountManagement.Data.Admin
 
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnPostEditRole(string RoleId, string RoleName)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@RoleId", RoleId);
+            parameters.Add("@RoleName", RoleName);
+
+            await _dbConnection.ExecuteAsync("UpdateRole", parameters, commandType: CommandType.StoredProcedure);
+
+            return RedirectToPage();
+        }
     }
 }
