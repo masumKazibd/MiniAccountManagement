@@ -23,6 +23,33 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+var scope = app.Services.CreateScope();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+// Seed roles
+string[] roleNames = { "Admin", "Accountant", "Viewer" };
+foreach (var roleName in roleNames)
+{
+    if (!await roleManager.RoleExistsAsync(roleName))
+    {
+        await roleManager.CreateAsync(new IdentityRole(roleName));
+    }
+}
+
+// Seed an admin user
+var adminUserEmail = "admin@example.com";
+if (await userManager.FindByEmailAsync(adminUserEmail) == null)
+{
+    var adminUser = new IdentityUser
+    {
+        UserName = adminUserEmail,
+        Email = adminUserEmail
+    };
+    await userManager.CreateAsync(adminUser, "admin");
+    await userManager.AddToRoleAsync(adminUser, "Admin");
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -31,7 +58,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
