@@ -56,13 +56,11 @@ namespace MiniAccountManagement.Pages.Accounts
 
         public async Task<IActionResult> OnPostDeleteAsync(int accountId)
         {
-            // In a real app, call your sp_ManageChartOfAccounts here
-            /*
-            await _db.ExecuteAsync("sp_ManageChartOfAccounts", 
-                new { Action = "DELETE", AccountId = accountId }, 
-                commandType: CommandType.StoredProcedure);
-            */
-
+            var Action = "DELETE";
+            var parameters = new DynamicParameters();
+            parameters.Add("@Action", Action);
+            parameters.Add("@AccountId", accountId);
+            await _dbConnection.ExecuteAsync("sp_ManageChartOfAccounts", parameters, commandType: CommandType.StoredProcedure);
             return RedirectToPage();
         }
 
