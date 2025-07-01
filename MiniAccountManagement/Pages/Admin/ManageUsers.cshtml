@@ -33,7 +33,20 @@
                             <tr>
                                 <td>@user.UserName</td>
                                 <td>@user.Email</td>
-                                <td><span class="badge bg-secondary">....</span></td>
+                                <td>
+                                    @if (user.Roles.Any())
+                                    {
+                                        foreach (var role in user.Roles)
+                                        {
+                                            <span class="badge bg-info me-1">@role</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No Role Assigned</span>
+                                    }
+                                </td>
+                                @* <td><span class="badge bg-secondary">....</span></td> *@
                                 <td class="text-end">
                                     <button class="btn btn-sm btn-outline-primary me-1" title="Manage Roles"
                                             data-bs-toggle="modal" data-bs-target="#manageUserRoleModal"

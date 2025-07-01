@@ -6,14 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MiniAccountManagement.Data.Admin
 {
-
-
     [Authorize(Roles = "Admin")]
     public class ManageUsersModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public List<IdentityUser> Users { get; set; }
+        public List<UserWithRoles> Users { get; set; }
 
         public ManageUsersModel(UserManager<IdentityUser> userManager)
         {
@@ -22,9 +20,29 @@ namespace MiniAccountManagement.Data.Admin
 
         public async Task OnGetAsync()
         {
-            Users = await _userManager.Users.ToListAsync();
-        }
+            var users = await _userManager.Users.ToListAsync();
 
-        // Add methods for editing, deleting users, assigning roles etc.
+            Users = new List<UserWithRoles>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                Users.Add(new UserWithRoles
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = roles.ToList()
+                });
+            }
+        }
+    }
+
+    public class UserWithRoles
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public List<string> Roles { get; set; }
     }
 }
