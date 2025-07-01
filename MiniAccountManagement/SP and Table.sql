@@ -53,3 +53,47 @@ CREATE TABLE dbo.ChartOfAccounts (
 );
 GO
 
+
+
+-- Stored Procedure to GET all active accounts
+CREATE PROCEDURE dbo.sp_GetChartOfAccounts
+AS
+BEGIN
+    SELECT AccountId, AccountCode, AccountName, ParentAccountId
+    FROM dbo.ChartOfAccounts
+    WHERE IsActive = 1;
+END
+GO
+
+
+-- Stored Procedure to MANAGE (Create, Update, Delete) accounts
+CREATE PROCEDURE dbo.sp_ManageChartOfAccounts
+    @Action NVARCHAR(10), -- 'CREATE', 'UPDATE', 'DELETE'
+    @AccountId INT = NULL,
+    @AccountCode NVARCHAR(20) = NULL,
+    @AccountName NVARCHAR(100) = NULL,
+    @ParentAccountId INT = NULL
+AS
+BEGIN
+    IF @Action = 'CREATE'
+    BEGIN
+        INSERT INTO dbo.ChartOfAccounts (AccountCode, AccountName, ParentAccountId)
+        VALUES (@AccountCode, @AccountName, @ParentAccountId);
+    END
+    ELSE IF @Action = 'UPDATE'
+    BEGIN
+        UPDATE dbo.ChartOfAccounts
+        SET AccountCode = @AccountCode,
+            AccountName = @AccountName,
+            ParentAccountId = @ParentAccountId
+        WHERE AccountId = @AccountId;
+    END
+    ELSE IF @Action = 'DELETE'
+    BEGIN
+        UPDATE dbo.ChartOfAccounts
+        SET IsActive = 0
+        WHERE AccountId = @AccountId;
+    END
+END
+GO
+
