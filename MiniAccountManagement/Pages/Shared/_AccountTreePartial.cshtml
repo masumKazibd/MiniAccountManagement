@@ -1,0 +1,41 @@
+﻿@using MiniAccountManagement.Models
+@model List<AccountNode>
+
+@if (Model != null && Model.Any())
+{
+    <ul class="list-group">
+        @foreach (var node in Model)
+        {
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fw-bold">@node.AccountCode</span> - @node.AccountName
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                data-action="create-child" data-parent-id="@node.AccountId" data-parent-name="@node.AccountName">
+                            <i class="fas fa-plus"></i> Add Child
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                data-action="edit" data-account-id="@node.AccountId" data-account-code="@node.AccountCode"
+                                data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                data-account-id="@node.AccountId" data-account-name="@node.AccountName">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recursive call to render children -->
+                @if (node.Children.Any())
+                {
+                    <div class="mt-2 ms-4">
+                        <partial name="_AccountTreePartial" model="node.Children" />
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+}

@@ -1,0 +1,152 @@
+﻿@page
+@model MiniAccountManagement.Pages.Accounts.ChartOfAccountsModel
+@{
+}
+@{
+    ViewData["Title"] = "Chart of Accounts";
+}
+
+<style>
+    /* Custom styles for the tree view */
+    .list-group-item {
+        border: none;
+        padding: .5rem 0;
+    }
+
+    .list-group .list-group {
+        margin-left: 1.5rem;
+        border-left: 1px solid #ddd;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountModal" data-action="create-root">
+                <i class="fas fa-plus me-2"></i>Create Root Account
+            </button>
+        </div>
+        <div class="card-body">
+            @if (Model.AccountTree.Any())
+            {
+                <partial name="_AccountTreePartial" model="Model.AccountTree" />
+            }
+            else
+            {
+                <p class="text-center text-muted">No accounts found. Start by creating a root account.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Create/Edit Account Modal -->
+<div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="CreateOrUpdate">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="AccountId" id="modalAccountId" />
+                    <div class="mb-3">
+                        <label for="modalParentAccount" class="form-label">Parent Account</label>
+                        <select name="ParentAccountId" id="modalParentAccount" class="form-select">
+                            <option value="">-- None (Root Account) --</option>
+                            @foreach (var account in Model.FlatAccountList)
+                            {
+                                <option value="@account.AccountId">@account.AccountName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalAccountCode" class="form-label">Account Code</label>
+                        <input type="text" name="AccountCode" id="modalAccountCode" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalAccountName" class="form-label">Account Name</label>
+                        <input type="text" name="AccountName" id="modalAccountName" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Delete">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="AccountId" id="deleteAccountId" />
+                    <p>Are you sure you want to delete the account: <strong id="deleteAccountName"></strong>?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script for Create/Edit Modal
+            var accountModal = document.getElementById('accountModal');
+            accountModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var action = button.getAttribute('data-action');
+
+                var modalTitle = accountModal.querySelector('.modal-title');
+                var accountIdInput = accountModal.querySelector('#modalAccountId');
+                var accountCodeInput = accountModal.querySelector('#modalAccountCode');
+                var accountNameInput = accountModal.querySelector('#modalAccountName');
+                var parentAccountSelect = accountModal.querySelector('#modalParentAccount');
+
+                // Reset form fields
+                accountIdInput.value = '';
+                accountCodeInput.value = '';
+                accountNameInput.value = '';
+                parentAccountSelect.value = '';
+
+                if (action === 'create-root') {
+                    modalTitle.textContent = 'Create Root Account';
+                } else if (action === 'create-child') {
+                    modalTitle.textContent = 'Create Child Account';
+                    parentAccountSelect.value = button.getAttribute('data-parent-id');
+                } else if (action === 'edit') {
+                    modalTitle.textContent = 'Edit Account';
+                    accountIdInput.value = button.getAttribute('data-account-id');
+                    accountCodeInput.value = button.getAttribute('data-account-code');
+                    accountNameInput.value = button.getAttribute('data-account-name');
+                    parentAccountSelect.value = button.getAttribute('data-parent-id');
+                }
+            });
+
+            // Script for Delete Modal
+            var deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var accountId = button.getAttribute('data-account-id');
+                var accountName = button.getAttribute('data-account-name');
+
+                deleteModal.querySelector('#deleteAccountId').value = accountId;
+                deleteModal.querySelector('#deleteAccountName').textContent = accountName;
+            });
+        });
+    </script>
+}
