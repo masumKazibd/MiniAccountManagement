@@ -52,8 +52,6 @@
                     </tr>
                 </thead>
                 <tbody id="voucher-details-body">
-                    <!-- Rows will be dynamically added here by JavaScript -->
-                    <!-- This is a template row, it will be cloned -->
                     <tr id="template-row" style="display:none;">
                         <td>
                             <select class="form-select account-dropdown" asp-items="Model.ViewModel.AccountList"></select>
@@ -95,8 +93,6 @@
                 const rows = detailsBody.querySelectorAll('tr:not(#template-row)');
                 rows.forEach((row, index) => {
                     row.querySelectorAll('select, input').forEach(input => {
-                        // This is the most critical part for model binding.
-                        // It sets the name attribute to "ViewModel.Details[index].PropertyName"
                         const name = input.getAttribute('data-name');
                         if (name) {
                             input.name = `ViewModel.Details[${index}].${name}`;
@@ -111,7 +107,6 @@
                 newRow.removeAttribute('id');
                 newRow.style.display = '';
 
-                // Set data-name attributes to be used by updateRowIndices
                 newRow.querySelector('.account-dropdown').setAttribute('data-name', 'AccountId');
                 newRow.querySelector('.debit-input').setAttribute('data-name', 'DebitAmount');
                 newRow.querySelector('.credit-input').setAttribute('data-name', 'CreditAmount');
@@ -148,7 +143,6 @@
                 }
             });
 
-            // Add initial rows
             addRow();
             addRow();
         });
