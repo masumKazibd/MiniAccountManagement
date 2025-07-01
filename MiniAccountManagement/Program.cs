@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MiniAccountManagement.Authorization;
 using MiniAccountManagement.Data;
 using System.Data;
 
@@ -29,6 +31,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 }).AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton<IAuthorizationHandler, ModulePermissionHandler>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("HasModulePermission", policy =>
+        policy.AddRequirements(new ModulePermissionRequirement()));
+});
+
 
 var app = builder.Build();
 
@@ -73,7 +85,6 @@ if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
     }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();

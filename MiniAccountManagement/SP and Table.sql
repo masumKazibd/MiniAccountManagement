@@ -97,3 +97,74 @@ BEGIN
 END
 GO
 
+
+-- Create the AccessRights table to link Roles to Modules
+CREATE TABLE dbo.AccessRights (
+    AccessRightId INT IDENTITY(1,1) PRIMARY KEY,
+    RoleId NVARCHAR(450) NOT NULL,
+    ModuleName NVARCHAR(100) NOT NULL,
+    CONSTRAINT FK_AccessRights_Roles FOREIGN KEY (RoleId) REFERENCES dbo.AspNetRoles(Id) ON DELETE CASCADE,
+    CONSTRAINT UQ_AccessRights UNIQUE (RoleId, ModuleName)
+);
+GO
+
+-- Create a Table-Valued Parameter (TVP) type to pass a list of modules
+CREATE TYPE dbo.ModuleListType AS TABLE (
+    ModuleName NVARCHAR(100)
+);
+GO
+
+-- Stored Procedure to GET all permissions for a specific role
+CREATE PROCEDURE dbo.sp_GetRolePermissions
+    @RoleId NVARCHAR(450)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT ModuleName 
+    FROM dbo.AccessRights 
+    WHERE RoleId = @RoleId;
+END
+GO
+
+-- Stored Procedure to UPDATE all permissions for a specific role
+CREATE PROCEDURE dbo.sp_UpdateRolePermissions
+    @RoleId NVARCHAR(450),
+    @Modules dbo.ModuleListType READONLY
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRANSACTION;
+
+    -- First, delete all existing permissions for this role
+    DELETE FROM dbo.AccessRights 
+    WHERE RoleId = @RoleId;
+
+    -- Then, insert the new set of permissions from the list provided
+    INSERT INTO dbo.AccessRights (RoleId, ModuleName)
+    SELECT @RoleId, ModuleName 
+    FROM @Modules;
+
+    COMMIT TRANSACTION;
+END
+GO
+---- CHeck user permission
+
+CREATE PROCEDURE dbo.sp_CheckUserPermission
+    @UserId NVARCHAR(450),
+    @ModuleName NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Check if any of the user's roles have an entry in AccessRights for the given module.
+    IF EXISTS (
+        SELECT 1
+        FROM dbo.AspNetUserRoles ur
+        JOIN dbo.AccessRights ar ON ur.RoleId = ar.RoleId
+        WHERE ur.UserId = @UserId AND ar.ModuleName = @ModuleName
+    )
+        SELECT 1; -- User has permission
+    ELSE
+        SELECT 0; -- User does not have permission
+END
+GO
