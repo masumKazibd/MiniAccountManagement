@@ -1,0 +1,156 @@
+﻿@page
+@model MiniAccountManagement.Pages.Vouchers.CreateModel
+@{
+    ViewData["Title"] = "Create Voucher";
+}
+
+<form method="post" id="voucherForm">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["Message"]
+                </div>
+            }
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="ViewModel.Header.VoucherDate" class="form-label"></label>
+                    <input asp-for="ViewModel.Header.VoucherDate" class="form-control" type="date" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ViewModel.Header.VoucherType" class="form-label"></label>
+                    <select asp-for="ViewModel.Header.VoucherType" class="form-select">
+                        <option value="Journal">Journal Voucher</option>
+                        <option value="Payment">Payment Voucher</option>
+                        <option value="Receipt">Receipt Voucher</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ViewModel.Header.ReferenceNo" class="form-label"></label>
+                    <input asp-for="ViewModel.Header.ReferenceNo" class="form-control" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ViewModel.Header.Narration" class="form-label"></label>
+                <textarea asp-for="ViewModel.Header.Narration" class="form-control" rows="2"></textarea>
+            </div>
+
+            <!-- Voucher Details Section -->
+            <hr />
+            <h5>Entries</h5>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:50%;">Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="voucher-details-body">
+                    <!-- Rows will be dynamically added here by JavaScript -->
+                    <!-- This is a template row, it will be cloned -->
+                    <tr id="template-row" style="display:none;">
+                        <td>
+                            <select class="form-select account-dropdown" asp-items="Model.ViewModel.AccountList"></select>
+                        </td>
+                        <td><input type="number" class="form-control debit-input" value="0" step="0.01" /></td>
+                        <td><input type="number" class="form-control credit-input" value="0" step="0.01" /></td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger remove-row-btn"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-end">Totals:</th>
+                        <th><input type="text" id="total-debit" class="form-control" readonly /></th>
+                        <th><input type="text" id="total-credit" class="form-control" readonly /></th>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button type="button" id="add-row-btn" class="btn btn-success"><i class="fas fa-plus me-2"></i>Add Row</button>
+        </div>
+        <div class="card-footer text-end">
+            <a asp-page="/Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Voucher</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const detailsBody = document.getElementById('voucher-details-body');
+            const templateRow = document.getElementById('template-row');
+            const addRowBtn = document.getElementById('add-row-btn');
+
+            function updateRowIndices() {
+                const rows = detailsBody.querySelectorAll('tr:not(#template-row)');
+                rows.forEach((row, index) => {
+                    row.querySelectorAll('select, input').forEach(input => {
+                        // This is the most critical part for model binding.
+                        // It sets the name attribute to "ViewModel.Details[index].PropertyName"
+                        const name = input.getAttribute('data-name');
+                        if (name) {
+                            input.name = `ViewModel.Details[${index}].${name}`;
+                        }
+                    });
+                });
+                updateTotals();
+            }
+
+            function addRow() {
+                const newRow = templateRow.cloneNode(true);
+                newRow.removeAttribute('id');
+                newRow.style.display = '';
+
+                // Set data-name attributes to be used by updateRowIndices
+                newRow.querySelector('.account-dropdown').setAttribute('data-name', 'AccountId');
+                newRow.querySelector('.debit-input').setAttribute('data-name', 'DebitAmount');
+                newRow.querySelector('.credit-input').setAttribute('data-name', 'CreditAmount');
+
+                detailsBody.appendChild(newRow);
+                updateRowIndices();
+            }
+
+            function updateTotals() {
+                let totalDebit = 0;
+                let totalCredit = 0;
+                detailsBody.querySelectorAll('tr:not(#template-row)').forEach(row => {
+                    const debit = parseFloat(row.querySelector('.debit-input').value) || 0;
+                    const credit = parseFloat(row.querySelector('.credit-input').value) || 0;
+                    totalDebit += debit;
+                    totalCredit += credit;
+                });
+                document.getElementById('total-debit').value = totalDebit.toFixed(2);
+                document.getElementById('total-credit').value = totalCredit.toFixed(2);
+            }
+
+            addRowBtn.addEventListener('click', addRow);
+
+            detailsBody.addEventListener('click', function (e) {
+                if (e.target && e.target.closest('.remove-row-btn')) {
+                    e.target.closest('tr').remove();
+                    updateRowIndices();
+                }
+            });
+
+            detailsBody.addEventListener('input', function(e){
+                if(e.target && (e.target.classList.contains('debit-input') || e.target.classList.contains('credit-input'))){
+                    updateTotals();
+                }
+            });
+
+            // Add initial rows
+            addRow();
+            addRow();
+        });
+    </script>
+}
