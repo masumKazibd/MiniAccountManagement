@@ -80,7 +80,7 @@
                     <p>User: <strong id="modalUserName"></strong></p>
                     <div class="mb-3">
                         <label for="roleSelect" class="form-label">Assign New Role:</label>
-                        <select name="NewRole" id="roleSelect" class="form-select">
+                        <select name="RoleId" id="roleSelect" class="form-select">
                             @foreach (var role in Model.Roles)
                             {
                                 <option value="@role.Id">@role.Name</option>
