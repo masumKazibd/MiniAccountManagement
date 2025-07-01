@@ -25,23 +25,7 @@ namespace MiniAccountManagement.Pages.Vouchers
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                await PopulateAccountList();
-                return Page();
-            }
-
-            var totalDebit = ViewModel.Details.Sum(d => d.DebitAmount);
-            var totalCredit = ViewModel.Details.Sum(d => d.CreditAmount);
-
-            if (totalDebit != totalCredit)
-            {
-                TempData["Message"] =  "Total debits must equal total credits.";
-                await PopulateAccountList();
-                return Page();
-            }
-            
+        {            
             var detailsTable = new DataTable();
             detailsTable.Columns.Add("AccountId", typeof(int));
             detailsTable.Columns.Add("DebitAmount", typeof(decimal));
