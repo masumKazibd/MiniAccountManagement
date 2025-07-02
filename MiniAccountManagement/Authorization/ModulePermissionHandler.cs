@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Protocol.Plugins;
 using System.Data;
 using System.Security.Claims;
 
@@ -8,11 +9,11 @@ namespace MiniAccountManagement.Authorization
 
     public class ModulePermissionHandler : AuthorizationHandler<ModulePermissionRequirement>
     {
-        private readonly IDbConnection _db;
+        private readonly IDbConnection _dbConnection;
 
-        public ModulePermissionHandler(IDbConnection db)
+        public ModulePermissionHandler(IDbConnection connection)
         {
-            _db = db;
+            _dbConnection = connection;
         }
 
         protected override async Task HandleRequirementAsync(
@@ -22,7 +23,7 @@ namespace MiniAccountManagement.Authorization
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-                return; 
+                return;
             }
 
             string moduleName = string.Empty;
@@ -32,23 +33,22 @@ namespace MiniAccountManagement.Authorization
                 var endpoint = httpContext.GetEndpoint();
                 if (endpoint != null)
                 {
-                    var authorizeData = endpoint.Metadata.GetOrderedMetadata<IAuthorizeData>();
-
-                    var moduleAuthorizeData = authorizeData.FirstOrDefault(d => d.Policy == "HasModulePermission" && !string.IsNullOrEmpty(d.Roles));
-                    if (moduleAuthorizeData != null)
+                    var moduleAuthorizeAttribute = endpoint.Metadata.GetMetadata<ModuleAuthorizeAttribute>();
+                    if (moduleAuthorizeAttribute != null)
                     {
-                        moduleName = moduleAuthorizeData.Roles;
+                        moduleName = moduleAuthorizeAttribute.ModuleName;
                     }
                 }
             }
 
             if (string.IsNullOrEmpty(moduleName))
             {
+                context.Fail();
                 return;
             }
 
             var parameters = new { UserId = userId, ModuleName = moduleName };
-            var hasPermission = await _db.ExecuteScalarAsync<bool>("sp_CheckUserPermission", parameters, commandType: CommandType.StoredProcedure);
+            var hasPermission = await _dbConnection.ExecuteScalarAsync<bool>("sp_CheckUserPermission", parameters, commandType: CommandType.StoredProcedure);
 
             if (hasPermission)
             {

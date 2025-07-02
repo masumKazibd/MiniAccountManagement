@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MiniAccountManagement.Authorization;
 using MiniAccountManagement.Models;
 using System.Data;
 
 namespace MiniAccountManagement.Pages.Accounts
 {
-    [Authorize(Policy = "HasModulePermission", Roles = "ChartOfAccounts")]
+    [ModuleAuthorize("ChartOfAccounts")]
+
     public class ChartOfAccountsModel : PageModel
     {
         private readonly IDbConnection _dbConnection;
