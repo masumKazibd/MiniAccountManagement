@@ -1,38 +1,112 @@
 ﻿@using MiniAccountManagement.Models
 @model List<AccountNode>
-
+<style>
+    .small-btn {
+        padding: 2px 4px; /* Adjust padding for smaller size */
+        font-size: 0.6rem; /* Make font smaller */
+        line-height: 1;
+        border-radius: 3px; /* Slightly rounded corners */
+    }
+</style>
 @if (Model != null && Model.Any())
 {
     <ul class="list-group">
         @foreach (var node in Model)
         {
             <li class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <span class="fw-bold">@node.AccountCode</span> - @node.AccountName
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#accountModal"
-                                data-action="create-child" data-parent-id="@node.AccountId" data-parent-name="@node.AccountName">
-                            <i class="fas fa-plus"></i> Add Child
-                        </button>
-                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#accountModal"
-                                data-action="edit" data-account-id="@node.AccountId" data-account-code="@node.AccountCode"
-                                data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                data-account-id="@node.AccountId" data-account-name="@node.AccountName">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Recursive call to render children -->
                 @if (node.Children.Any())
                 {
-                    <div class="mt-2 ms-4">
-                        <partial name="_AccountTreePartial" model="node.Children" />
+                    <div class="accordion mt-2 " id="accordion-@node.AccountId">
+                        <div class="accordion-item row">
+                            <div class="col-10">
+                                <h2 class="accordion-header" id="heading-@node.AccountId">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@node.AccountId"
+                                            aria-expanded="false" aria-controls="collapse-@node.AccountId">
+                                        <strong>
+                                            <span class="fw-bold">@node.AccountCode</span> - @node.AccountName
+                                        </strong>
+                                    </button>
+                                </h2>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-outline-success btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                        data-action="create-child" data-parent-id="@node.AccountId">
+                                    <i class="fas fa-plus"></i> Add Child
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                        data-action="edit" data-account-id="@node.AccountId" data-account-code="@node.AccountCode"
+                                        data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        data-account-id="@node.AccountId" data-account-name="@node.AccountName">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+
+                            <div id="collapse-@node.AccountId" class="accordion-collapse collapse" aria-labelledby="heading-@node.AccountId"
+                                 data-bs-parent="#accordion-@node.AccountId">
+                                <div class="accordion-body">
+                                    @foreach (var child in node.Children)
+                                    {
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span class="fw-bold">@child.AccountCode</span> - @child.AccountName
+                                                    </div>
+                                                    <div class="btn-group" role="group">
+                                                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                                                data-action="create-child" data-parent-id="@child.AccountId" data-parentname="@child.AccountName">
+                                                            <i class="fas fa-plus"></i> Add Child
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bstarget="#accountModal"
+                                                                data-action="edit" data-account-id="@child.AccountId" data-accountcode="@child.AccountCode"
+                                                                data-account-name="@child.AccountName" data-parent-id="@child.ParentAccountId">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                data-account-id="@child.AccountId" data-account-name="@child.AccountName">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-10">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        aria-expanded="false">
+                                    <strong>
+                                        <span class="fw-bold">@node.AccountCode</span> - @node.AccountName
+                                    </strong>
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-outline-success btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                    data-action="create-child" data-parent-id="@node.AccountId">
+                                <i class="fas fa-plus"></i> Add Child
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                    data-action="edit" data-account-id="@node.AccountId" data-account-code="@node.AccountCode"
+                                    data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm small-btn" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                    data-account-id="@node.AccountId" data-account-name="@node.AccountName">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
                     </div>
                 }
             </li>
