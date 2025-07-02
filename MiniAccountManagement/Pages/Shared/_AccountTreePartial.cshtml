@@ -23,6 +23,10 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
+
+    .dropdown-menu {
+        min-width: 10rem;
+    }
 </style>
 
 @if (Model != null && Model.Any())
@@ -42,33 +46,36 @@
                                 aria-controls="collapse-@node.AccountId">
                             <strong>@node.AccountCode - @node.AccountName</strong>
                         </button>
+
+                        <!-- Three-dot dropdown menu for actions -->
+                        <div class="ms-3">
+                            <button class="btn btn-link btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#accountModal" data-action="create-child" data-parent-id="@node.AccountId">
+                                        <i class="fas fa-plus"></i> Add Child
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#accountModal" data-action="edit" data-account-id="@node.AccountId" data-account-code="@node.AccountCode" data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal" data-account-id="@node.AccountId" data-account-name="@node.AccountName">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </h2>
 
                 <div id="collapse-@node.AccountId" class="accordion-collapse collapse" aria-labelledby="heading-@node.AccountId"
                      data-bs-parent="#accountAccordion">
                     <div class="accordion-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-outline-success btn-sm small-btn" data-bs-toggle="modal"
-                                        data-bs-target="#accountModal" data-action="create-child"
-                                        data-parent-id="@node.AccountId">
-                                    <i class="fas fa-plus"></i> Add Child
-                                </button>
-                                <button class="btn btn-outline-primary btn-sm small-btn" data-bs-toggle="modal"
-                                        data-bs-target="#accountModal" data-action="edit"
-                                        data-account-id="@node.AccountId" data-account-code="@node.AccountCode"
-                                        data-account-name="@node.AccountName" data-parent-id="@node.ParentAccountId">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm small-btn" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal" data-account-id="@node.AccountId"
-                                        data-account-name="@node.AccountName">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </div>
-
                         @if (node.Children.Any())
                         {
                             <div class="ms-4">
@@ -88,35 +95,40 @@
                                                         aria-controls="collapse-@child.AccountId">
                                                     <strong>@child.AccountCode - @child.AccountName</strong>
                                                 </button>
+
+                                                <!-- Three-dot dropdown menu for actions -->
+                                                <div class="ms-3">
+                                                    <button class="btn btn-link btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-h"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                                                    data-action="create-child" data-parent-id="@child.AccountId">
+                                                                <i class="fas fa-plus"></i> Add Child
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#accountModal"
+                                                                    data-action="edit" data-account-id="@child.AccountId"
+                                                                    data-account-code="@child.AccountCode" data-account-name="@child.AccountName"
+                                                                    data-parent-id="@child.ParentAccountId">
+                                                                <i class="fas fa-edit"></i> Edit
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                                    data-account-id="@child.AccountId" data-account-name="@child.AccountName">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </h2>
                                         <div id="collapse-@child.AccountId" class="accordion-collapse collapse"
                                              aria-labelledby="heading-@child.AccountId" data-bs-parent="#collapse-@node.AccountId">
                                             <div class="accordion-body">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="btn-group" role="group">
-                                                        <button class="btn btn-outline-success btn-sm small-btn"
-                                                                data-bs-toggle="modal" data-bs-target="#accountModal"
-                                                                data-action="create-child" data-parent-id="@child.AccountId">
-                                                            <i class="fas fa-plus"></i> Add Child
-                                                        </button>
-                                                        <button class="btn btn-outline-primary btn-sm small-btn"
-                                                                data-bs-toggle="modal" data-bs-target="#accountModal"
-                                                                data-action="edit" data-account-id="@child.AccountId"
-                                                                data-account-code="@child.AccountCode"
-                                                                data-account-name="@child.AccountName"
-                                                                data-parent-id="@child.ParentAccountId">
-                                                            <i class="fas fa-edit"></i> Edit
-                                                        </button>
-                                                        <button class="btn btn-outline-danger btn-sm small-btn"
-                                                                data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                                data-account-id="@child.AccountId"
-                                                                data-account-name="@child.AccountName">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-
                                                 @if (child.Children.Any())
                                                 {
                                                     <div class="ms-4">
@@ -144,34 +156,7 @@
                                                                      aria-labelledby="heading-@subChild.AccountId"
                                                                      data-bs-parent="#collapse-@child.AccountId">
                                                                     <div class="accordion-body">
-                                                                        <div class="d-flex justify-content-between align-items-center">
-                                                                            <div class="btn-group" role="group">
-                                                                                <button class="btn btn-outline-success btn-sm small-btn"
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#accountModal"
-                                                                                        data-action="create-child"
-                                                                                        data-parent-id="@subChild.AccountId">
-                                                                                    <i class="fas fa-plus"></i> Add Child
-                                                                                </button>
-                                                                                <button class="btn btn-outline-primary btn-sm small-btn"
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#accountModal"
-                                                                                        data-action="edit"
-                                                                                        data-account-id="@subChild.AccountId"
-                                                                                        data-account-code="@subChild.AccountCode"
-                                                                                        data-account-name="@subChild.AccountName"
-                                                                                        data-parent-id="@subChild.ParentAccountId">
-                                                                                    <i class="fas fa-edit"></i> Edit
-                                                                                </button>
-                                                                                <button class="btn btn-outline-danger btn-sm small-btn"
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#deleteModal"
-                                                                                        data-account-id="@subChild.AccountId"
-                                                                                        data-account-name="@subChild.AccountName">
-                                                                                    <i class="fas fa-trash"></i> Delete
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
+                                                                        <!-- Add, Edit, and Delete buttons here -->
                                                                     </div>
                                                                 </div>
                                                             </div>
