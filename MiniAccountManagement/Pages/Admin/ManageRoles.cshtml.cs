@@ -9,7 +9,8 @@ using System.Data;
 
 namespace MiniAccountManagement.Data.Admin
 {
-    [Authorize(Roles ="Admin")]
+    [ModuleAuthorize("RoleManagement")]
+
     public class ManageRolesModel : PageModel
     {
         private readonly RoleManager<IdentityRole> _roleManager;

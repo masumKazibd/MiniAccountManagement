@@ -46,7 +46,17 @@ namespace MiniAccountManagement.Authorization
                 context.Fail();
                 return;
             }
+            if (context.User.IsInRole("Admin") && moduleName == "UserManagement")
+            {
+                context.Succeed(requirement);
+                return;
+            }
 
+            if (context.User.IsInRole("Admin") && moduleName == "RoleManagement")
+            {
+                context.Succeed(requirement);
+                return;
+            }
             var parameters = new { UserId = userId, ModuleName = moduleName };
             var hasPermission = await _dbConnection.ExecuteScalarAsync<bool>("sp_CheckUserPermission", parameters, commandType: CommandType.StoredProcedure);
 

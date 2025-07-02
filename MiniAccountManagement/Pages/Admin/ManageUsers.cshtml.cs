@@ -10,7 +10,6 @@ using System.Data.Common;
 
 namespace MiniAccountManagement.Data.Admin
 {
-    [Authorize(Roles = "Admin")]
     [ModuleAuthorize("UserManagement")]
     public class ManageUsersModel : PageModel
     {
