@@ -2,11 +2,13 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MiniAccountManagement.Authorization;
 using MiniAccountManagement.Models;
 using System.Data;
 
 namespace MiniAccountManagement.Pages.Vouchers
 {
+    [ModuleAuthorize("VoucherEntry")]
     public class CreateModel : PageModel
     {
         private readonly IDbConnection _dbConnection;

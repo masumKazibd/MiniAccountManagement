@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using MiniAccountManagement.Authorization;
 using System.Data;
 
 namespace MiniAccountManagement.Data.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles ="Admin")]
     public class ManageRolesModel : PageModel
     {
         private readonly RoleManager<IdentityRole> _roleManager;

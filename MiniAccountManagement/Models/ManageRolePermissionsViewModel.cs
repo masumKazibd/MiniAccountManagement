@@ -11,6 +11,7 @@
         "ChartOfAccounts",
         "VoucherEntry",
         "UserManagement",
+        "RoleManagement",
         "Reports"
     };
         public List<string> AssignedModules { get; set; } = new List<string>();

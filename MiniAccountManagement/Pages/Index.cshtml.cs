@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MiniAccountManagement.Authorization;
 
 namespace MiniAccountManagement.Pages
 {
