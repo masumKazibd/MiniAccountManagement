@@ -12,6 +12,17 @@
     .accordion-button::after {
         content: none !important;
     }
+
+    .accordion-header {
+        display: flex;
+        align-items: center;
+    }
+
+        .accordion-header .icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 </style>
 
 @if (Model != null && Model.Any())
@@ -21,11 +32,17 @@
         {
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading-@node.AccountId">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse-@node.AccountId" aria-expanded="false"
-                            aria-controls="collapse-@node.AccountId">
-                        <strong>@node.AccountCode - @node.AccountName</strong>
-                    </button>
+                    <div class="d-flex align-items-center">
+                        @if (node.Children.Any())
+                        {
+                            <i class="fas fa-chevron-right icon" data-bs-toggle="collapse" data-bs-target="#collapse-@node.AccountId" aria-expanded="false" aria-controls="collapse-@node.AccountId"></i>
+                        }
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse-@node.AccountId" aria-expanded="false"
+                                aria-controls="collapse-@node.AccountId">
+                            <strong>@node.AccountCode - @node.AccountName</strong>
+                        </button>
+                    </div>
                 </h2>
 
                 <div id="collapse-@node.AccountId" class="accordion-collapse collapse" aria-labelledby="heading-@node.AccountId"
@@ -59,11 +76,19 @@
                                 {
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="heading-@child.AccountId">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse-@child.AccountId" aria-expanded="false"
-                                                    aria-controls="collapse-@child.AccountId">
-                                                <strong>@child.AccountCode - @child.AccountName</strong>
-                                            </button>
+                                            <div class="d-flex align-items-center">
+                                                @if (child.Children.Any())
+                                                {
+                                                    <i class="fas fa-chevron-right icon" data-bs-toggle="collapse"
+                                                       data-bs-target="#collapse-@child.AccountId" aria-expanded="false"
+                                                       aria-controls="collapse-@child.AccountId"></i>
+                                                }
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-@child.AccountId" aria-expanded="false"
+                                                        aria-controls="collapse-@child.AccountId">
+                                                    <strong>@child.AccountCode - @child.AccountName</strong>
+                                                </button>
+                                            </div>
                                         </h2>
                                         <div id="collapse-@child.AccountId" class="accordion-collapse collapse"
                                              aria-labelledby="heading-@child.AccountId" data-bs-parent="#collapse-@node.AccountId">
@@ -99,13 +124,21 @@
                                                         {
                                                             <div class="accordion-item">
                                                                 <h2 class="accordion-header" id="heading-@subChild.AccountId">
-                                                                    <button class="accordion-button" type="button"
-                                                                            data-bs-toggle="collapse"
-                                                                            data-bs-target="#collapse-@subChild.AccountId"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="collapse-@subChild.AccountId">
-                                                                        <strong>@subChild.AccountCode - @subChild.AccountName</strong>
-                                                                    </button>
+                                                                    <div class="d-flex align-items-center">
+                                                                        @if (subChild.Children.Any())
+                                                                        {
+                                                                            <i class="fas fa-chevron-right icon" data-bs-toggle="collapse"
+                                                                               data-bs-target="#collapse-@subChild.AccountId" aria-expanded="false"
+                                                                               aria-controls="collapse-@subChild.AccountId"></i>
+                                                                        }
+                                                                        <button class="accordion-button" type="button"
+                                                                                data-bs-toggle="collapse"
+                                                                                data-bs-target="#collapse-@subChild.AccountId"
+                                                                                aria-expanded="false"
+                                                                                aria-controls="collapse-@subChild.AccountId">
+                                                                            <strong>@subChild.AccountCode - @subChild.AccountName</strong>
+                                                                        </button>
+                                                                    </div>
                                                                 </h2>
                                                                 <div id="collapse-@subChild.AccountId" class="accordion-collapse collapse"
                                                                      aria-labelledby="heading-@subChild.AccountId"
