@@ -22,6 +22,10 @@
     <div class="card shadow-sm">
         <div class="card-header bg-light d-flex justify-content-between align-items-center">
             <h4 class="mb-0">@ViewData["Title"]</h4>
+            <a asp-page-handler="Export" class="btn btn-success">
+                <i class="fas fa-file-excel me-2"></i>Export to Excel
+            </a>
+
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountModal" data-action="create-root">
                 <i class="fas fa-plus me-2"></i>Create Root Account
             </button>

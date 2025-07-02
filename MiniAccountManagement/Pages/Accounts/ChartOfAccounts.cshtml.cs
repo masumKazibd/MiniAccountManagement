@@ -1,3 +1,4 @@
+using ClosedXML.Excel;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -67,7 +68,50 @@ namespace MiniAccountManagement.Pages.Accounts
             await _dbConnection.ExecuteAsync("sp_ManageChartOfAccounts", parameters, commandType: CommandType.StoredProcedure);
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnGetExportAsync()
+        {
+            var accounts = await _dbConnection.QueryAsync<Account>("sp_GetChartOfAccounts", commandType: CommandType.StoredProcedure);
+            var accountList = accounts.ToList();
 
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Chart of Accounts");
+
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Account ID";
+                worksheet.Cell(currentRow, 2).Value = "Account Code";
+                worksheet.Cell(currentRow, 3).Value = "Account Name";
+                worksheet.Cell(currentRow, 4).Value = "Parent Account ID";
+
+                // Style the header
+                var headerRange = worksheet.Range(currentRow, 1, currentRow, 4);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
+                headerRange.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+
+                // Add the data rows from your account list.
+                foreach (var account in accountList)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = account.AccountId;
+                    worksheet.Cell(currentRow, 2).Value = account.AccountCode;
+                    worksheet.Cell(currentRow, 3).Value = account.AccountName;
+                    worksheet.Cell(currentRow, 4).Value = account.ParentAccountId;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    var fileName = $"ChartOfAccounts_{DateTime.Now:yyyyMMdd}.xlsx";
+
+                    return File(content, contentType, fileName);
+                }
+            }
+        }
         private List<AccountNode> BuildTree(List<Account> accounts)
         {
             var nodes = accounts.ToDictionary(
