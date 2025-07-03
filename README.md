@@ -22,8 +22,13 @@ A robust security system built on ASP.NET Core Identity.
 
 **Screenshots:**
 - Login Page:
+- ![image](https://github.com/user-attachments/assets/2efe6ac4-f403-4a54-b5b9-01603c9ec102)
+
 - Role Management Page:
+- ![image](https://github.com/user-attachments/assets/d12d7453-26fa-444e-99be-78f4a2544fed)
+
 - Permissions Management Page:
+- ![image](https://github.com/user-attachments/assets/2d674e79-268d-43a3-ba41-03e9b48bbcf2)
 
 ### 2. Chart of Accounts
 A hierarchical system for managing financial accounts.
@@ -33,6 +38,9 @@ A hierarchical system for managing financial accounts.
 - **Excel Export:** The entire Chart of Accounts can be exported to an Excel file with a single click.
 
 **Screenshot:**
+- ![image](https://github.com/user-attachments/assets/a41d99c8-86c6-47be-be3f-ad55bffec7cd)
+- ![image](https://github.com/user-attachments/assets/42315ed7-aa56-4096-bfec-9435ef656fd2)
+
 
 ### 3. Voucher Entry Module
 A dynamic form for creating Journal, Payment, and Receipt vouchers.
@@ -43,6 +51,7 @@ A dynamic form for creating Journal, Payment, and Receipt vouchers.
 - **Efficient Database Saving:** All voucher data (header and multiple detail lines) is saved in a single, atomic transaction using a stored procedure with a Table-Valued Parameter (TVP).
 
 **Screenshot:**
+![image](https://github.com/user-attachments/assets/51d2163a-523b-4aca-abe3-9ba1c55a29d2)
 
 ## Setup and Installation
 Follow these steps to run the project locally.
@@ -54,8 +63,8 @@ Follow these steps to run the project locally.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/your-repository-name.git
-cd your-repository-name
+git clone https://github.com/masumKazibd/MiniAccountManagement.git
+cd MiniAccountManagement
 ```
 ### 2. Database Setup
 - Open MS SQL Server Management Studio (SSMS).
