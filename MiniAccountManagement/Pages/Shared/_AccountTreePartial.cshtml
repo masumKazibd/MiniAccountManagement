@@ -2,39 +2,6 @@
 @using MiniAccountManagement.Models
 @model List<AccountNode>
 
-<style>
-    .small-btn {
-        padding: 2px 4px;
-        font-size: 0.6rem;
-        line-height: 1;
-        border-radius: 3px;
-    }
-
-    .accordion-button::after {
-        content: none !important;
-    }
-
-    .accordion-header {
-        display: flex;
-        align-items: center;
-    }
-
-        .accordion-header .icon {
-            margin-right: 10px;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-    .dropdown-menu {
-        min-width: 10rem;
-    }
-
-    /* Custom styling for aligning the button to the right */
-    .accordion-header .action-button {
-        margin-left: auto; /* Push to the right */
-    }
-</style>
-
 @if (Model != null && Model.Any())
 {
     <div class="accordion" id="accountAccordion">
@@ -60,7 +27,7 @@
         if (node.Children.Any())
         {
             output.AppendHtml($@"
-                <i class='fas fa-chevron-right icon' data-bs-toggle='collapse' data-bs-target='#collapse-{node.AccountId}' aria-expanded='false' aria-controls='collapse-{node.AccountId}'></i>
+                <i class='fas fa-chevron-right btn-sm' data-bs-toggle='collapse' data-bs-target='#collapse-{node.AccountId}' aria-expanded='false' aria-controls='collapse-{node.AccountId}'></i>
             ");
         }
 
