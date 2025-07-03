@@ -28,6 +28,11 @@
     .dropdown-menu {
         min-width: 10rem;
     }
+
+    /* Custom styling for aligning the button to the right */
+    .accordion-header .action-button {
+        margin-left: auto; /* Push to the right */
+    }
 </style>
 
 @if (Model != null && Model.Any())
@@ -52,7 +57,6 @@
                     <div class='d-flex align-items-center'>
                 ");
 
-        // Conditionally render the collapse icon if the node has children
         if (node.Children.Any())
         {
             output.AppendHtml($@"
@@ -62,15 +66,11 @@
 
         // Render the button with account details
         output.AppendHtml($@"
-            <button class='accordion-button' type='button' data-bs-toggle='collapse'
-                    data-bs-target='#collapse-{node.AccountId}' aria-expanded='false'
-                    aria-controls='collapse-{node.AccountId}'>
-                <strong>{node.AccountCode} - {node.AccountName}</strong>
-            </button>
+            <div><h6>{node.AccountCode} - {node.AccountName}</h6></div>
 
-            <div class='ms-3'>
+            <div class='action-button ms-auto'>
                 <button class='btn btn-link btn-sm' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                    <i class='fas fa-ellipsis-h'></i>
+                    <i class='fas fa-ellipsis-v'></i>
                 </button>
                 <ul class='dropdown-menu'>
                     <li>
@@ -110,7 +110,6 @@
 
         output.AppendHtml("</div></div></div>");
 
-        // Return the generated HTML content
         return output;
     }
 }

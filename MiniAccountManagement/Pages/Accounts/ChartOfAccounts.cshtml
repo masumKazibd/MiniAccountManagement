@@ -60,7 +60,7 @@
                             <option value="">-- None (Root Account) --</option>
                             @foreach (var account in Model.FlatAccountList)
                             {
-                                <option value="@account.AccountId">@account.AccountName</option>
+                                <option value="@account.AccountId">@account.AccountName (@account.AccountCode)</option>
                             }
                         </select>
                     </div>
