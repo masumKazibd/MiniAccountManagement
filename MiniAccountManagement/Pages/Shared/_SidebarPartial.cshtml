@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="bg-white border-end" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+            <a class="text-dark text-decoration-none" asp-area="" asp-page="/Index">MiniAccountManagement</a>
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Index">
+                <i class="fas fa-home me-2"></i>Home
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Accounts/ChartOfAccounts">
+                <i class="fas fa-chart-bar me-2"></i>Chart Of Accounts
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Admin/ManageUsers">
+                <i class="fas fa-users me-2"></i>Manage Users
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Admin/ManageRoles">
+                <i class="fas fa-cog me-2"></i>Manage Roles
+            </a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Vouchers/CreateVouchers">
+                <i class="fas fa-file-invoice me-2"></i>CreateVouchers
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="bg-white border-end" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+            <a class="text-dark text-decoration-none" asp-area="" asp-page="/Index">MiniAccountManagement</a>
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-page="/Index">
+                <i class="fas fa-home me-2"></i>Home
+            </a>
+        </div>
+    </div>
+}
